@@ -32,7 +32,7 @@ function showInsight(v){
     }else if(v==='study'){
         const studyH=time.filter(e=>e.category==='study').reduce((s,e)=>s+(parseFloat(e.duration)||0),0);
         const byDomain={};time.filter(e=>e.domain).forEach(e=>{byDomain[e.domain]=(byDomain[e.domain]||0)+(parseFloat(e.duration)||0);});
-        content.innerHTML='<div class="stat" style="margin-bottom:16px;"><div class="stat-value">'+studyH.toFixed(1)+'h</div><div class="stat-label">Total Study</div></div>'+Object.entries(byDomain).sort((a,b)=>b[1]-a[1]).map(([d,h])=>'<div class="list-item"><div class="list-item-content"><div class="list-item-title">'+d+'</div></div><span style="color:var(--accent);font-weight:600;">'+h.toFixed(1)+'h</span></div>').join('');
+        content.innerHTML='<div class="stat" style="margin-bottom:16px;"><div class="stat-value">'+studyH.toFixed(1)+'h</div><div class="stat-label">Total Study</div></div>'+Object.entries(byDomain).sort((a,b)=>b[1]-a[1]).map(([d,h])=>'<div class="list-item"><div class="list-item-content"><div class="list-item-title">'+esc(d)+'</div></div><span style="color:var(--accent);font-weight:600;">'+h.toFixed(1)+'h</span></div>').join('');
     }else if(v==='discipline'){
         const last7=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);last7.push(fmtDate(d));}
         const scores=last7.map(ds=>{const day=disc[ds]||{};return {date:ds,score:DISCIPLINES.reduce((s,x)=>s+(day[x.id]||0),0)};});

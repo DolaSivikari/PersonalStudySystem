@@ -21,3 +21,16 @@ function toast(m) { document.getElementById('toastMsg').textContent=m; document.
 function openModal(id) { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.querySelector('.sidebar-overlay').classList.toggle('show');
+}
+
+// Data versioning for future migrations
+const DATA_VERSION = 1;
+const storedVersion = parseInt(localStorage.getItem('hcc_dataVersion')) || 0;
+if (storedVersion < DATA_VERSION) {
+    // Future migration logic goes here
+    localStorage.setItem('hcc_dataVersion', DATA_VERSION);
+}
+

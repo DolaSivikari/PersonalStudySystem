@@ -182,7 +182,7 @@ function viewReview(weekKey) {
     document.getElementById('reviewDetailContent').innerHTML = sections.map(s => `
         <div style="margin-bottom:16px;">
             <div style="font-weight:600;margin-bottom:8px;">${s.icon} ${s.title}</div>
-            <div style="background:var(--bg-tertiary);padding:12px;border-radius:8px;color:var(--text-secondary);white-space:pre-wrap;">${review.sections?.[s.id] || '(No entry)'}</div>
+            <div style="background:var(--bg-tertiary);padding:12px;border-radius:8px;color:var(--text-secondary);white-space:pre-wrap;">${esc(review.sections?.[s.id] || '(No entry)')}</div>
         </div>
     `).join('');
     

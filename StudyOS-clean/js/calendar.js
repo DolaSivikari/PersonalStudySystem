@@ -118,7 +118,7 @@ function renderUpcomingEvents() {
                 </div>
                 <div class="event-info">
                     <div class="event-title">${esc(e.title)}</div>
-                    <div class="event-meta">${timeStr ? timeStr + ' • ' : ''}${e.notes || e.type || ''}</div>
+                    <div class="event-meta">${timeStr ? timeStr + ' • ' : ''}${e.notes ? esc(e.notes) : (e.type || '')}</div>
                 </div>
                 <span class="event-type ${e.type || 'event'}">${e.type || 'event'}</span>
             </div>

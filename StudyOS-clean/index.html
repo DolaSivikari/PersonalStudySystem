@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Open navigation">☰</button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <div class="app">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
@@ -147,13 +149,13 @@
         <!-- MORNING/EVENING PROTOCOL -->
         <!-- PROTOCOL - Morning/Evening Routine -->
         <div class="page" id="protocol">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;" id="protocolTitle">
+                        <h2 id="protocolTitle">
                             <span>🌅</span> Morning Protocol
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Start your day with intention</p>
+                        <p>Start your day with intention</p>
                     </div>
                     <div id="protocolTime" style="font-size:2rem;font-weight:700;color:var(--accent);font-family:var(--font-mono);"></div>
                 </div>
@@ -192,13 +194,13 @@
 
         <!-- DISCIPLINE SCORECARD -->
         <div class="page" id="discipline">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>🏆</span> Discipline Scorecard
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;" id="disciplineDate">Track your daily excellence</p>
+                        <p id="disciplineDate">Track your daily excellence</p>
                     </div>
                 </div>
             </div>
@@ -240,13 +242,13 @@
 
         <!-- LEARN - Knowledge Pathways -->
         <div class="page" id="learn">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>📚</span> Learning Pathways
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Master your competencies</p>
+                        <p>Master your competencies</p>
                     </div>
                     <button class="btn btn-primary" onclick="openTimeModal()" style="display:flex;align-items:center;gap:8px;">
                         <span>⚡</span> Quick Log
@@ -321,13 +323,13 @@
         
         <!-- STUDY LAB - Neuroscience-Based Learning -->
         <div class="page" id="studylab">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>🧠</span> Study Lab
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Neuroscience-based learning techniques from <em>Make it Stick</em></p>
+                        <p>Neuroscience-based learning techniques from <em>Make it Stick</em></p>
                     </div>
                     <button class="btn btn-secondary" onclick="go('learn')">← Back to Learn</button>
                 </div>
@@ -494,13 +496,13 @@
 
         <!-- GOALS -->
         <div class="page" id="goals">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>🎯</span> Goals
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Track your ambitions</p>
+                        <p>Track your ambitions</p>
                     </div>
                     <button class="btn btn-primary" onclick="openGoalModal()" style="display:flex;align-items:center;gap:8px;">
                         <span>➕</span> New Goal
@@ -522,13 +524,13 @@
 
         <!-- TASKS -->
         <div class="page" id="tasks">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>✅</span> Tasks
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Get things done</p>
+                        <p>Get things done</p>
                     </div>
                     <button class="btn btn-primary" onclick="openTaskModal()" style="display:flex;align-items:center;gap:8px;">
                         <span>➕</span> Add Task
@@ -573,13 +575,13 @@
 
         <!-- TIME TRACKER -->
         <div class="page" id="tracker">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>⏱️</span> Time Tracker
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Log your focused work</p>
+                        <p>Log your focused work</p>
                     </div>
                     <button class="btn btn-primary" onclick="openTimeModal()" style="display:flex;align-items:center;gap:8px;">
                         <span>⏰</span> Log Time
@@ -628,13 +630,13 @@
 
         <!-- CALENDAR -->
         <div class="page" id="calendar">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>📅</span> Calendar
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Plan and visualize your schedule</p>
+                        <p>Plan and visualize your schedule</p>
                     </div>
                     <button class="btn btn-primary" onclick="openEventModal()" style="display:flex;align-items:center;gap:8px;">
                         <span>➕</span> Add Event
@@ -684,13 +686,13 @@
 
         <!-- HABITS -->
         <div class="page" id="habits">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>✨</span> Habits
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Build consistency, build character</p>
+                        <p>Build consistency, build character</p>
                     </div>
                     <button class="btn btn-primary" onclick="openHabitModal()" style="display:flex;align-items:center;gap:8px;">
                         <span>➕</span> New Habit
@@ -721,13 +723,13 @@
         <!-- JOURNAL -->
         <div class="page" id="journal">
             <!-- Modern Journal Header -->
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>📓</span> Journal
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Capture thoughts, reflect, grow</p>
+                        <p>Capture thoughts, reflect, grow</p>
                     </div>
                     <button class="btn btn-primary" onclick="openJournalModal()" style="display:flex;align-items:center;gap:8px;padding:10px 20px;">
                         <span style="font-size:1.1rem;">✍️</span> New Entry
@@ -756,13 +758,13 @@
 
         <!-- KNOWLEDGE VAULT -->
         <div class="page" id="knowledge">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>📚</span> Knowledge Vault
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Your second brain</p>
+                        <p>Your second brain</p>
                     </div>
                     <div style="display:flex;gap:8px;">
                         <button class="btn btn-primary" onclick="openKnowledgeModal('note')" style="display:flex;align-items:center;gap:8px;">
@@ -794,12 +796,12 @@
 
         <!-- INSIGHTS -->
         <div class="page" id="insights">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div>
-                    <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                    <h2>
                         <span>📊</span> Analytics & Insights
                     </h2>
-                    <p style="color:var(--text-muted);font-size:0.85rem;">Understand your progress</p>
+                    <p>Understand your progress</p>
                 </div>
             </div>
             
@@ -812,13 +814,13 @@
         <!-- SPACED REPETITION / FLASHCARDS -->
         <!-- PMP TOOLS -->
         <div class="page" id="pmptools">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>🎓</span> Professional Tools
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">PMP + CEBOK3 + Construction Estimating</p>
+                        <p>PMP + CEBOK3 + Construction Estimating</p>
                     </div>
                 </div>
             </div>
@@ -828,13 +830,13 @@
 
         <!-- FLASHCARDS -->
         <div class="page" id="flashcards">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>🃏</span> Spaced Repetition
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Fight the forgetting curve with science</p>
+                        <p>Fight the forgetting curve with science</p>
                     </div>
                     <button class="btn btn-primary" onclick="openFlashcardModal()" style="display:flex;align-items:center;gap:8px;">
                         <span>➕</span> New Card
@@ -914,13 +916,13 @@
 
         <!-- WEEKLY REVIEW -->
         <div class="page" id="review">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>📋</span> Weekly Review
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">Reflect, learn, and plan ahead</p>
+                        <p>Reflect, learn, and plan ahead</p>
                     </div>
                     <div id="reviewWeekLabel" style="font-size:0.9rem;color:var(--text-muted);"></div>
                 </div>
@@ -970,13 +972,13 @@
 
         <!-- CONTACTS / NETWORKING -->
         <div class="page" id="contacts">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <h2>
                             <span>🤝</span> Network
                         </h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;">70-80% of jobs come from connections</p>
+                        <p>70-80% of jobs come from connections</p>
                     </div>
                     <button class="btn btn-primary" onclick="openContactModal()" style="display:flex;align-items:center;gap:8px;">
                         <span>➕</span> Add Contact
@@ -1035,12 +1037,12 @@
 
         <!-- SETTINGS -->
         <div class="page" id="settings">
-            <div style="margin-bottom:24px;">
+            <div class="page-header">
                 <div>
-                    <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                    <h2>
                         <span>⚙️</span> Settings
                     </h2>
-                    <p style="color:var(--text-muted);font-size:0.85rem;">Customize your command center</p>
+                    <p>Customize your command center</p>
                 </div>
             </div>
             

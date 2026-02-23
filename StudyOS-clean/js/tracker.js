@@ -57,7 +57,7 @@ function refreshTracker() {
             <span class="session-icon">${e.category === 'study' ? '📚' : e.category === 'work' ? '💼' : e.category === 'project' ? '🔧' : '⏱️'}</span>
             <div class="session-info">
                 <div class="session-title">${esc(e.title)}</div>
-                <div class="session-meta">${e.category}${e.domain ? ' • ' + e.domain : ''} • ${e.date}</div>
+                <div class="session-meta">${esc(e.category)}${e.domain ? ' • ' + esc(e.domain) : ''} • ${e.date}</div>
             </div>
             <span class="session-hours">${e.duration}h</span>
         </div>

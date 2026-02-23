@@ -6,6 +6,13 @@ function go(page) {
     // Highlight the correct sidebar nav link
     const navLink = document.querySelector('.nav-link[onclick="go(\'' + page + '\')"]');
     if(navLink) navLink.classList.add('active');
+    // Auto-close sidebar on mobile when a nav link is clicked
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar && sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        const overlay = document.querySelector('.sidebar-overlay');
+        if (overlay) overlay.classList.remove('show');
+    }
     
     if(page==='dashboard') refreshDashboard();
     else if(page==='protocol') renderProtocol();
