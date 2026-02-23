@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyOS — Hebun Command Center</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div style="padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+                <h1 style="font-size:1.3rem;color:var(--accent);">⚡ StudyOS</h1>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Hebun Command Center</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Dashboard</div>
+                <div class="nav-link active" onclick="go('dashboard')">🏠 Dashboard</div>
+                <div class="nav-link" onclick="go('protocol')">🌅 Protocol</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Learning</div>
+                <div class="nav-link" onclick="go('learn')">📖 Pathways</div>
+                <div class="nav-link" onclick="go('studylab')">🧪 Study Lab</div>
+                <div class="nav-link" onclick="go('pmptools')">🎓 Pro Tools</div>
+                <div class="nav-link" onclick="go('flashcards')">🎴 Flashcards</div>
+                <div class="nav-link" onclick="go('knowledge')">📚 Knowledge</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Productivity</div>
+                <div class="nav-link" onclick="go('discipline')">📊 Discipline</div>
+                <div class="nav-link" onclick="go('goals')">🎯 Goals</div>
+                <div class="nav-link" onclick="go('tasks')">✅ Tasks</div>
+                <div class="nav-link" onclick="go('calendar')">📅 Calendar</div>
+                <div class="nav-link" onclick="go('tracker')">⏱️ Time</div>
+                <div class="nav-link" onclick="go('habits')">🔄 Habits</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Reflect</div>
+                <div class="nav-link" onclick="go('journal')">📝 Journal</div>
+                <div class="nav-link" onclick="go('contacts')">🤝 Network</div>
+                <div class="nav-link" onclick="go('review')">📋 Weekly Review</div>
+                <div class="nav-link" onclick="go('insights')">📈 Insights</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-link" onclick="go('settings')">⚙️ Settings</div>
+            </div>
+        </nav>
+
+        <main class="main">
+        <div class="page active" id="dashboard">
+            <div class="hero">
+                <div class="hero-greeting">Good <span id="greeting">morning</span>, <span id="userName">Hebun</span></div>
+                <div class="hero-vision" id="heroVision"></div>
+                <div class="grid grid-4">
+                    <div class="stat">
+                        <div class="stat-value" id="statStreak">0</div>
+                        <div class="stat-label">Day Streak</div>
+                        <div class="sparkline" id="streakSparkline"></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="statDiscipline">0%</div>
+                        <div class="stat-label">Discipline</div>
+                        <div class="sparkline" id="disciplineSparkline"></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="statHours">0</div>
+                        <div class="stat-label">Hrs/Week</div>
+                        <div class="sparkline" id="hoursSparkline"></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="statTasks">0</div>
+                        <div class="stat-label">Tasks Due</div>
+                        <div class="stat-extra" id="statSRS" style="font-size:0.7rem;color:var(--purple);margin-top:4px;">0 cards due</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Today's Focus Card -->
+            <div class="today-focus" id="todayFocusCard">
+                <div class="today-focus-label">🎯 Today's #1 Priority</div>
+                <div class="today-focus-task" id="todayFocusTask">Set your focus in the morning protocol</div>
+                <div class="today-focus-meta" id="todayFocusMeta"></div>
+                <div style="margin-top:12px;display:flex;gap:8px;">
+                    <button class="btn btn-primary btn-sm" onclick="startFocusMode()">🎯 Focus Mode</button>
+                    <button class="btn btn-secondary btn-sm" onclick="go('protocol')">Edit Focus</button>
+                </div>
+            </div>
+            
+            <!-- Quick Stats Row -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px;">
+                <div class="card" style="padding:14px;cursor:pointer;" onclick="go('flashcards')">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="font-size:1.5rem;">🃏</span>
+                        <div>
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--purple);" id="dashSRSDue">0</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">Cards Due</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="padding:14px;cursor:pointer;" onclick="go('review')">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="font-size:1.5rem;">📋</span>
+                        <div>
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--success);" id="dashReviewStatus">-</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">Weekly Review</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="padding:14px;cursor:pointer;" onclick="go('contacts')">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="font-size:1.5rem;">🤝</span>
+                        <div>
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--accent);" id="dashFollowups">0</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">Follow-ups</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendar Preview -->
+            <div class="card" style="margin-bottom:16px;">
+                <div class="card-header">
+                    <span class="card-title">📅 Coming Up</span>
+                    <span class="btn btn-sm btn-secondary" onclick="go('calendar')">View All →</span>
+                </div>
+                <div id="dashCalendarPreview"></div>
+            </div>
+            
+            <div id="dashboardTip"></div>
+            <div class="card"><div class="card-header"><span class="card-title">📚 Learn Today</span><span class="btn btn-sm btn-secondary" onclick="go('learn')">View Path →</span></div><div id="dashLearn"></div></div>
+            
+            <!-- Daily Quote -->
+            <div class="quote-card" id="dailyQuoteCard">
+                <div class="quote-text" id="dailyQuoteText">"Discipline is choosing between what you want now and what you want most."</div>
+                <div class="quote-author" id="dailyQuoteAuthor">— Abraham Lincoln</div>
+            </div>
+            <div id="dashWisdom"></div>
+        </div>
+
+        <!-- MORNING/EVENING PROTOCOL -->
+        <!-- PROTOCOL - Morning/Evening Routine -->
+        <div class="page" id="protocol">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;" id="protocolTitle">
+                            <span>🌅</span> Morning Protocol
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Start your day with intention</p>
+                    </div>
+                    <div id="protocolTime" style="font-size:2rem;font-weight:700;color:var(--accent);font-family:var(--font-mono);"></div>
+                </div>
+            </div>
+            
+            <!-- Protocol Progress -->
+            <div class="card" style="padding:16px;margin-bottom:20px;background:linear-gradient(135deg, var(--bg-secondary), rgba(168,85,247,0.1));border-color:var(--purple);">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <span style="color:var(--purple);font-weight:600;">Protocol Progress</span>
+                    <span id="protocolProgress" style="color:var(--purple);font-weight:700;">0/5</span>
+                </div>
+                <div class="progress" style="height:8px;background:rgba(168,85,247,0.2);">
+                    <div class="progress-fill" id="protocolProgressBar" style="width:0%;background:var(--purple);"></div>
+                </div>
+            </div>
+            
+            <!-- Protocol Steps -->
+            <div id="protocolSteps" style="margin-bottom:20px;"></div>
+            
+            <!-- Intention & Energy -->
+            <div class="card">
+                <div style="margin-bottom:20px;">
+                    <label style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:8px;">🎯 Today's Intention</label>
+                    <textarea class="form-textarea" id="protocolIntention" placeholder="What is the ONE thing that will make today successful?" style="min-height:80px;font-size:1rem;"></textarea>
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:12px;">⚡ Energy Level</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;" id="energySelector"></div>
+                    <input type="hidden" id="protocolEnergy" value="7">
+                </div>
+                <button class="btn btn-primary" onclick="completeProtocol()" style="width:100%;padding:14px;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:8px;">
+                    <span>✅</span> Complete Protocol
+                </button>
+            </div>
+        </div>
+
+        <!-- DISCIPLINE SCORECARD -->
+        <div class="page" id="discipline">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>🏆</span> Discipline Scorecard
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;" id="disciplineDate">Track your daily excellence</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Streak & Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:20px;background:linear-gradient(135deg, var(--bg-secondary), rgba(249,115,22,0.1));border-color:var(--accent);">
+                    <div style="font-size:2.5rem;margin-bottom:4px;">🔥</div>
+                    <div style="font-size:2rem;font-weight:700;color:var(--accent);" id="disciplineStreak">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Day Streak</div>
+                </div>
+                <div class="card" style="text-align:center;padding:20px;">
+                    <div style="font-size:2.5rem;margin-bottom:4px;">📊</div>
+                    <div style="font-size:2rem;font-weight:700;color:var(--success);" id="disciplineAvg">0%</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">7-Day Avg</div>
+                </div>
+                <div class="card" style="text-align:center;padding:20px;">
+                    <div style="font-size:2.5rem;margin-bottom:4px;">🎯</div>
+                    <div style="font-size:2rem;font-weight:700;color:var(--purple);" id="disciplineTodayScore">0/50</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Today</div>
+                </div>
+            </div>
+            
+            <!-- Daily Score Items -->
+            <div class="card">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">Rate Your Day</div>
+                <div id="disciplineItems"></div>
+                <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+                    <div class="progress" style="height:12px;border-radius:6px;"><div class="progress-fill" id="disciplineProgress" style="width:0%;transition:width 0.3s;"></div></div>
+                </div>
+            </div>
+            
+            <!-- Weekly Heatmap -->
+            <div class="card" style="margin-top:16px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Last 7 Days</div>
+                <div id="disciplineHeatmap" style="display:flex;gap:8px;justify-content:space-between;"></div>
+            </div>
+        </div>
+
+        <!-- LEARN - Knowledge Pathways -->
+        <div class="page" id="learn">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>📚</span> Learning Pathways
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Master your competencies</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openTimeModal()" style="display:flex;align-items:center;gap:8px;">
+                        <span>⚡</span> Quick Log
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Pathway Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:16px;border-left:4px solid var(--accent);">
+                    <div style="font-size:1.8rem;font-weight:700;color:var(--accent);" id="learnPmpProgress">0%</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">PMP Ready</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;border-left:4px solid #58a6ff;">
+                    <div style="font-size:1.8rem;font-weight:700;color:#58a6ff;" id="learnMcmasterProgress">0%</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">McMaster Ready</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;border-left:4px solid var(--purple);">
+                    <div style="font-size:1.8rem;font-weight:700;color:var(--purple);" id="learnSmrProgress">0%</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">SMR Ready</div>
+                </div>
+            </div>
+            
+            <!-- Pathway Tabs & Content -->
+            <div class="card" style="padding:0;overflow:hidden;">
+                <div class="filter-bar" id="learnFilters" style="padding:12px 16px;background:var(--bg-tertiary);margin:0;border-radius:0;"></div>
+                <div id="learnPathways" style="padding:16px;"></div>
+            </div>
+            
+            <!-- Today's Learning -->
+            <div class="card" style="margin-top:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <span style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">📖 Recent Sessions</span>
+                    <span style="font-size:0.85rem;color:var(--accent);font-weight:600;" id="todayLearnHours">0h today</span>
+                </div>
+                <div id="todayLearning"></div>
+            </div>
+            
+            <!-- PMP 49 Process Tracker -->
+            <div class="card" style="margin-top:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="font-size:1.5rem;">📋</span>
+                        <div>
+                            <div style="font-weight:600;color:var(--accent);">PMP 49 Processes</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">Track your PMBOK mastery</div>
+                        </div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:1.5rem;font-weight:700;color:var(--success);" id="pmpProcessPct">0%</div>
+                        <div style="font-size:0.7rem;color:var(--text-muted);" id="pmpProcessCount">0/49</div>
+                    </div>
+                </div>
+                <div id="pmpProcessGrid"></div>
+            </div>
+            
+            <!-- Science-Based Study Techniques -->
+            <div class="card" style="margin-top:16px;background:linear-gradient(135deg, var(--bg-secondary), rgba(168,85,247,0.08));border-color:var(--purple);">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="font-size:1.5rem;">🧠</span>
+                        <div>
+                            <div style="font-weight:600;color:var(--purple);">Study Lab</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">Science-based learning from Make it Stick</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="go('studylab')" style="border-color:var(--purple);color:var(--purple);">Open Lab →</button>
+                </div>
+                <div id="studyTechniquePreview" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;"></div>
+            </div>
+        </div>
+        
+        <!-- STUDY LAB - Neuroscience-Based Learning -->
+        <div class="page" id="studylab">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>🧠</span> Study Lab
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Neuroscience-based learning techniques from <em>Make it Stick</em></p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="go('learn')">← Back to Learn</button>
+                </div>
+            </div>
+            
+            <!-- Core Principle Banner -->
+            <div class="card" style="background:linear-gradient(135deg, rgba(168,85,247,0.1), rgba(249,115,22,0.1));border:none;margin-bottom:20px;">
+                <div style="text-align:center;padding:10px 0;">
+                    <div style="font-size:1.1rem;font-weight:600;color:var(--text-primary);margin-bottom:8px;">💡 Core Principle</div>
+                    <div style="color:var(--text-secondary);font-style:italic;max-width:600px;margin:0 auto;">"Learning is deeper and more durable when it's effortful. Easy learning is like writing in sand, here today and gone tomorrow."</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;">— Make it Stick, Brown, Roediger & McDaniel</div>
+                </div>
+            </div>
+            
+            <!-- Technique Cards Grid -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:20px;">
+                
+                <!-- Active Recall -->
+                <div class="card study-technique-card" onclick="openTechniqueModal('recall')">
+                    <div style="display:flex;align-items:flex-start;gap:14px;">
+                        <div style="font-size:2rem;">🎯</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:600;font-size:1.05rem;margin-bottom:6px;color:var(--accent);">Active Recall</div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">Test yourself instead of re-reading. Pull information from memory without looking at notes. The struggle to retrieve strengthens neural pathways.</div>
+                            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+                                <span class="tag-chip" style="font-size:0.7rem;">Flashcards</span>
+                                <span class="tag-chip" style="font-size:0.7rem;">Practice Tests</span>
+                                <span class="tag-chip" style="font-size:0.7rem;">Blank Page</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Spaced Repetition -->
+                <div class="card study-technique-card" onclick="openTechniqueModal('spaced')">
+                    <div style="display:flex;align-items:flex-start;gap:14px;">
+                        <div style="font-size:2rem;">📅</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:600;font-size:1.05rem;margin-bottom:6px;color:var(--purple);">Spaced Repetition</div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">Review at increasing intervals: 1 day → 3 days → 1 week → 2 weeks → 1 month. Forgetting and re-learning creates stronger memory traces.</div>
+                            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(168,85,247,0.15);color:var(--purple);">Anki</span>
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(168,85,247,0.15);color:var(--purple);">Schedule Reviews</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interleaving -->
+                <div class="card study-technique-card" onclick="openTechniqueModal('interleave')">
+                    <div style="display:flex;align-items:flex-start;gap:14px;">
+                        <div style="font-size:2rem;">🔀</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:600;font-size:1.05rem;margin-bottom:6px;color:var(--success);">Interleaving</div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">Mix different topics and problem types in one session. Feels harder but builds discrimination skills and flexible knowledge application.</div>
+                            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(34,197,94,0.15);color:var(--success);">Mixed Practice</span>
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(34,197,94,0.15);color:var(--success);">Vary Problems</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feynman Technique -->
+                <div class="card study-technique-card" onclick="openTechniqueModal('feynman')">
+                    <div style="display:flex;align-items:flex-start;gap:14px;">
+                        <div style="font-size:2rem;">👨‍🏫</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:600;font-size:1.05rem;margin-bottom:6px;color:#58a6ff;">Feynman Technique</div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">Explain concepts in simple terms as if teaching a child. If you can't explain it simply, you don't understand it deeply enough.</div>
+                            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(88,166,255,0.15);color:#58a6ff;">Teach Others</span>
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(88,166,255,0.15);color:#58a6ff;">Simplify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Elaboration -->
+                <div class="card study-technique-card" onclick="openTechniqueModal('elaboration')">
+                    <div style="display:flex;align-items:flex-start;gap:14px;">
+                        <div style="font-size:2rem;">🔗</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:600;font-size:1.05rem;margin-bottom:6px;color:var(--warning);">Elaboration</div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">Connect new information to what you already know. Ask "why" and "how" questions. Create mental models and analogies.</div>
+                            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(245,158,11,0.15);color:var(--warning);">Mental Models</span>
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(245,158,11,0.15);color:var(--warning);">Analogies</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Generation -->
+                <div class="card study-technique-card" onclick="openTechniqueModal('generation')">
+                    <div style="display:flex;align-items:flex-start;gap:14px;">
+                        <div style="font-size:2rem;">✏️</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:600;font-size:1.05rem;margin-bottom:6px;color:var(--danger);">Generation Effect</div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">Attempt to solve problems before being shown how. Even wrong attempts prime your brain for learning the correct solution.</div>
+                            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(239,68,68,0.15);color:var(--danger);">Try First</span>
+                                <span class="tag-chip" style="font-size:0.7rem;background:rgba(239,68,68,0.15);color:var(--danger);">Productive Failure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Neuroplasticity Section -->
+            <div class="card" style="margin-bottom:16px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">🧬 Neuroplasticity Principles</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+                    <div style="padding:14px;background:var(--bg-tertiary);border-radius:8px;">
+                        <div style="font-weight:600;margin-bottom:6px;">😴 Sleep</div>
+                        <div style="font-size:0.85rem;color:var(--text-secondary);">Memory consolidation occurs during deep sleep. 7-8 hours is non-negotiable for learning.</div>
+                    </div>
+                    <div style="padding:14px;background:var(--bg-tertiary);border-radius:8px;">
+                        <div style="font-weight:600;margin-bottom:6px;">🏃 Exercise</div>
+                        <div style="font-size:0.85rem;color:var(--text-secondary);">Physical activity increases BDNF, promoting neuron growth and synaptic plasticity.</div>
+                    </div>
+                    <div style="padding:14px;background:var(--bg-tertiary);border-radius:8px;">
+                        <div style="font-weight:600;margin-bottom:6px;">💧 Hydration</div>
+                        <div style="font-size:0.85rem;color:var(--text-secondary);">Dehydration impairs cognitive function. Keep water at your study station.</div>
+                    </div>
+                    <div style="padding:14px;background:var(--bg-tertiary);border-radius:8px;">
+                        <div style="font-weight:600;margin-bottom:6px;">⏱️ Breaks</div>
+                        <div style="font-size:0.85rem;color:var(--text-secondary);">Pomodoro: 25 min focus + 5 min break. Attention restoration prevents burnout.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Study Session Launcher -->
+            <div class="card" style="background:linear-gradient(135deg, var(--bg-secondary), rgba(249,115,22,0.1));border-color:var(--accent);">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">⚡ Quick Study Session</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;">
+                    <button class="btn btn-secondary" onclick="startStudySession('recall', 15)" style="display:flex;flex-direction:column;align-items:center;padding:16px;gap:6px;">
+                        <span style="font-size:1.5rem;">🎯</span>
+                        <span>15-min Recall</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="startStudySession('feynman', 20)" style="display:flex;flex-direction:column;align-items:center;padding:16px;gap:6px;">
+                        <span style="font-size:1.5rem;">👨‍🏫</span>
+                        <span>20-min Feynman</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="startStudySession('pomodoro', 25)" style="display:flex;flex-direction:column;align-items:center;padding:16px;gap:6px;">
+                        <span style="font-size:1.5rem;">🍅</span>
+                        <span>25-min Pomodoro</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="startStudySession('interleave', 30)" style="display:flex;flex-direction:column;align-items:center;padding:16px;gap:6px;">
+                        <span style="font-size:1.5rem;">🔀</span>
+                        <span>30-min Interleave</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Study Log -->
+            <div class="card" style="margin-top:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <span style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">📊 Technique Usage</span>
+                </div>
+                <div id="techniqueUsageStats"></div>
+            </div>
+        </div>
+
+        <!-- GOALS -->
+        <div class="page" id="goals">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>🎯</span> Goals
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Track your ambitions</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openGoalModal()" style="display:flex;align-items:center;gap:8px;">
+                        <span>➕</span> New Goal
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Goal Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px;" id="goalStats"></div>
+            
+            <!-- Filters -->
+            <div class="card" style="padding:12px;margin-bottom:16px;">
+                <div class="filter-bar" id="goalFilters" style="margin:0;"></div>
+            </div>
+            
+            <!-- Goals Grid -->
+            <div id="goalsContainer"></div>
+        </div>
+
+        <!-- TASKS -->
+        <div class="page" id="tasks">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>✅</span> Tasks
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Get things done</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openTaskModal()" style="display:flex;align-items:center;gap:8px;">
+                        <span>➕</span> Add Task
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Task Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--accent);" id="tasksDueToday">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Due Today</div>
+                </div>
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--danger);" id="tasksOverdue">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Overdue</div>
+                </div>
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--success);" id="tasksCompleted">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Done</div>
+                </div>
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--purple);" id="tasksTotal">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Total</div>
+                </div>
+            </div>
+            
+            <!-- Quick Add -->
+            <div class="card" style="padding:12px;margin-bottom:16px;">
+                <div style="display:flex;gap:10px;">
+                    <input type="text" class="form-input" id="quickTaskInput" placeholder="Quick add task... (Enter to save)" style="flex:1;" onkeydown="if(event.key==='Enter')quickAddTask()">
+                    <button class="btn btn-primary" onclick="quickAddTask()">Add</button>
+                </div>
+            </div>
+            
+            <!-- Filters & Tasks -->
+            <div class="card" style="padding:0;overflow:hidden;">
+                <div class="filter-bar" id="taskFilters" style="padding:12px 16px;background:var(--bg-tertiary);margin:0;"></div>
+                <div id="tasksContainer" style="padding:0;"></div>
+            </div>
+        </div>
+
+        <!-- TIME TRACKER -->
+        <div class="page" id="tracker">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>⏱️</span> Time Tracker
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Log your focused work</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openTimeModal()" style="display:flex;align-items:center;gap:8px;">
+                        <span>⏰</span> Log Time
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Time Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:18px;background:linear-gradient(135deg, var(--bg-secondary), rgba(249,115,22,0.1));border-color:var(--accent);">
+                    <div style="font-size:2.2rem;font-weight:700;color:var(--accent);font-family:var(--font-mono);" id="timeToday">0h</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Today</div>
+                </div>
+                <div class="card" style="text-align:center;padding:18px;">
+                    <div style="font-size:2.2rem;font-weight:700;color:var(--success);font-family:var(--font-mono);" id="timeWeek">0h</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">This Week</div>
+                </div>
+                <div class="card" style="text-align:center;padding:18px;">
+                    <div style="font-size:2.2rem;font-weight:700;color:var(--purple);font-family:var(--font-mono);" id="timeMonth">0h</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">This Month</div>
+                </div>
+                <div class="card" style="text-align:center;padding:18px;">
+                    <div style="font-size:2.2rem;font-weight:700;color:#58a6ff;font-family:var(--font-mono);" id="timeTotal">0h</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">All Time</div>
+                </div>
+            </div>
+            
+            <!-- Activity Heatmap -->
+            <div class="card" style="margin-bottom:16px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">📅 Last 28 Days</div>
+                <div id="timeHeatmap" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
+            </div>
+            
+            <!-- Category Breakdown -->
+            <div class="card" style="margin-bottom:16px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">📊 By Category</div>
+                <div id="timeCategoryBreakdown"></div>
+            </div>
+            
+            <!-- Recent Sessions -->
+            <div class="card">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">🕐 Recent Sessions</div>
+                <div id="recentSessions"></div>
+            </div>
+        </div>
+
+        <!-- CALENDAR -->
+        <div class="page" id="calendar">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>📅</span> Calendar
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Plan and visualize your schedule</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openEventModal()" style="display:flex;align-items:center;gap:8px;">
+                        <span>➕</span> Add Event
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Calendar Navigation -->
+            <div class="card" style="padding:16px;margin-bottom:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <button class="btn btn-secondary" onclick="changeMonth(-1)" style="padding:8px 16px;">← Prev</button>
+                    <div style="text-align:center;">
+                        <div style="font-size:1.3rem;font-weight:700;" id="calendarMonthYear">February 2026</div>
+                        <button class="btn btn-secondary btn-sm" onclick="goToToday()" style="margin-top:6px;font-size:0.75rem;">Today</button>
+                    </div>
+                    <button class="btn btn-secondary" onclick="changeMonth(1)" style="padding:8px 16px;">Next →</button>
+                </div>
+            </div>
+            
+            <!-- Mini Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.4rem;font-weight:700;color:var(--accent);" id="calEventsThisMonth">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">This Month</div>
+                </div>
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.4rem;font-weight:700;color:var(--purple);" id="calEventsThisWeek">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">This Week</div>
+                </div>
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.4rem;font-weight:700;color:var(--success);" id="calEventsToday">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Today</div>
+                </div>
+            </div>
+            
+            <!-- Calendar Grid -->
+            <div class="card" style="padding:12px;overflow-x:auto;">
+                <div id="calendarGrid"></div>
+            </div>
+            
+            <!-- Upcoming Events -->
+            <div class="card" style="margin-top:16px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">📋 Upcoming Events</div>
+                <div id="upcomingEvents"></div>
+            </div>
+        </div>
+
+        <!-- HABITS -->
+        <div class="page" id="habits">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>✨</span> Habits
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Build consistency, build character</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openHabitModal()" style="display:flex;align-items:center;gap:8px;">
+                        <span>➕</span> New Habit
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Habit Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:16px;">
+                    <div style="font-size:1.8rem;font-weight:700;color:var(--accent);" id="habitsActive">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Active Habits</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;">
+                    <div style="font-size:1.8rem;font-weight:700;color:var(--success);" id="habitsTodayDone">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Done Today</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;">
+                    <div style="font-size:1.8rem;font-weight:700;color:var(--purple);" id="habitsLongestStreak">0🔥</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Best Streak</div>
+                </div>
+            </div>
+            
+            <!-- Habits Grid -->
+            <div id="habitsContainer"></div>
+        </div>
+
+        <!-- JOURNAL -->
+        <div class="page" id="journal">
+            <!-- Modern Journal Header -->
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>📓</span> Journal
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Capture thoughts, reflect, grow</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openJournalModal()" style="display:flex;align-items:center;gap:8px;padding:10px 20px;">
+                        <span style="font-size:1.1rem;">✍️</span> New Entry
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Search & Filters -->
+            <div class="card" style="padding:14px;margin-bottom:20px;">
+                <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+                    <div style="flex:1;min-width:200px;position:relative;">
+                        <input type="text" class="form-input" id="journalSearch" placeholder="Search entries..." 
+                               style="padding-left:36px;background:var(--bg-primary);" oninput="renderJournalEntries()">
+                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);">🔍</span>
+                    </div>
+                    <div class="filter-bar" id="journalFilters" style="margin:0;flex-wrap:wrap;"></div>
+                </div>
+            </div>
+            
+            <!-- Journal Stats -->
+            <div id="journalStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px;"></div>
+            
+            <!-- Journal Entries -->
+            <div id="journalContainer"></div>
+        </div>
+
+        <!-- KNOWLEDGE VAULT -->
+        <div class="page" id="knowledge">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>📚</span> Knowledge Vault
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Your second brain</p>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-primary" onclick="openKnowledgeModal('note')" style="display:flex;align-items:center;gap:8px;">
+                            <span>📝</span> New Note
+                        </button>
+                        <button class="btn" onclick="openKnowledgeModal('critical')" style="display:flex;align-items:center;gap:8px;background:var(--purple);border-color:var(--purple);color:white;">
+                            <span>🔍</span> Critical Analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search & Filters -->
+            <div class="card" style="padding:14px;margin-bottom:20px;">
+                <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+                    <div style="flex:1;min-width:200px;position:relative;">
+                        <input type="text" class="form-input" id="knowledgeSearch" placeholder="Search notes..." 
+                               style="padding-left:36px;background:var(--bg-primary);" oninput="renderKnowledge()">
+                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);">🔍</span>
+                    </div>
+                    <div class="filter-bar" id="knowledgeFilters" style="margin:0;"></div>
+                </div>
+                <div id="knowledgeTypeFilter" style="display:flex;gap:4px;margin-top:10px;"></div>
+            </div>
+            
+            <!-- Knowledge Grid -->
+            <div id="knowledgeContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;"></div>
+        </div>
+
+        <!-- INSIGHTS -->
+        <div class="page" id="insights">
+            <div style="margin-bottom:24px;">
+                <div>
+                    <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <span>📊</span> Analytics & Insights
+                    </h2>
+                    <p style="color:var(--text-muted);font-size:0.85rem;">Understand your progress</p>
+                </div>
+            </div>
+            
+            <div class="card" style="padding:0;overflow:hidden;">
+                <div class="filter-bar" id="insightTabs" style="padding:12px 16px;background:var(--bg-tertiary);margin:0;"></div>
+                <div id="insightsContent" style="padding:16px;"></div>
+            </div>
+        </div>
+
+        <!-- SPACED REPETITION / FLASHCARDS -->
+        <!-- PMP TOOLS -->
+        <div class="page" id="pmptools">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>🎓</span> Professional Tools
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">PMP + CEBOK3 + Construction Estimating</p>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-bar" id="pmpToolTabs" style="margin-bottom:20px;"></div>
+            <div id="pmpToolContent"></div>
+        </div>
+
+        <!-- FLASHCARDS -->
+        <div class="page" id="flashcards">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>🃏</span> Spaced Repetition
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Fight the forgetting curve with science</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openFlashcardModal()" style="display:flex;align-items:center;gap:8px;">
+                        <span>➕</span> New Card
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SRS Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:16px;background:linear-gradient(135deg, var(--bg-secondary), rgba(239,68,68,0.1));border-color:var(--danger);">
+                    <div style="font-size:2rem;font-weight:700;color:var(--danger);" id="srsDueNow">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Due Now</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;">
+                    <div style="font-size:2rem;font-weight:700;color:var(--accent);" id="srsDueToday">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Due Today</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;">
+                    <div style="font-size:2rem;font-weight:700;color:var(--purple);" id="srsTotal">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Total Cards</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;">
+                    <div style="font-size:2rem;font-weight:700;color:var(--success);" id="srsStreak">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Day Streak</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;background:linear-gradient(135deg, var(--bg-secondary), rgba(59,130,246,0.1));border-color:var(--info);">
+                    <div style="font-size:2rem;font-weight:700;color:var(--info);" id="srsCalibration">—</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Calibration</div>
+                </div>
+            </div>
+            
+            <!-- Review Mode Toggle -->
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                <span style="font-size:0.8rem;color:var(--text-muted);">Review Mode:</span>
+                <div id="srsModeToggle" style="display:flex;gap:4px;"></div>
+            </div>
+            
+            <!-- Start Review Button -->
+            <div class="card" style="text-align:center;padding:24px;margin-bottom:20px;" id="srsStartReview">
+                <div style="font-size:3rem;margin-bottom:12px;">🧠</div>
+                <div style="font-size:1.1rem;margin-bottom:16px;" id="srsReviewPrompt">You have cards to review!</div>
+                <button class="btn btn-primary" onclick="startSRSReview()" style="padding:14px 32px;font-size:1rem;">
+                    ▶️ Start Review Session
+                </button>
+            </div>
+            
+            <!-- Active Review Area (hidden by default) -->
+            <div id="srsReviewArea" style="display:none;">
+                <div class="flashcard" id="currentFlashcard" onclick="flipCard()">
+                    <div class="flashcard-meta" id="cardMeta">Card 1 of 10</div>
+                    <div class="flashcard-front" id="cardFront">
+                        <div class="flashcard-question" id="cardQuestion">Question goes here</div>
+                        <div class="flashcard-hint">Click to reveal answer</div>
+                    </div>
+                    <div class="flashcard-back" id="cardBack" style="display:none;">
+                        <div class="flashcard-answer" id="cardAnswer">Answer goes here</div>
+                    </div>
+                </div>
+                <!-- Confidence Rating -->
+                <div id="cardConfidence" style="display:none;text-align:center;margin-bottom:12px;"></div>
+                <div class="flashcard-difficulty" id="cardDifficulty" style="display:none;">
+                    <button class="difficulty-btn hard" onclick="rateCard('hard')">😰 Hard<br><small>1 day</small></button>
+                    <button class="difficulty-btn medium" onclick="rateCard('medium')">🤔 Medium<br><small>3 days</small></button>
+                    <button class="difficulty-btn easy" onclick="rateCard('easy')">😊 Easy<br><small>7 days</small></button>
+                </div>
+            </div>
+            
+            <!-- Card List -->
+            <div class="card" style="margin-top:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <span style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">📚 All Cards</span>
+                    <div class="filter-bar" id="srsFilters" style="padding:0;margin:0;"></div>
+                </div>
+                <div id="flashcardsList"></div>
+            </div>
+        </div>
+
+        <!-- WEEKLY REVIEW -->
+        <div class="page" id="review">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>📋</span> Weekly Review
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Reflect, learn, and plan ahead</p>
+                    </div>
+                    <div id="reviewWeekLabel" style="font-size:0.9rem;color:var(--text-muted);"></div>
+                </div>
+            </div>
+            
+            <!-- Review Status -->
+            <div class="card" style="padding:20px;margin-bottom:20px;background:linear-gradient(135deg, var(--bg-secondary), rgba(34,197,94,0.1));border-color:var(--success);" id="reviewStatusCard">
+                <div style="display:flex;align-items:center;gap:16px;">
+                    <div style="font-size:3rem;" id="reviewStatusIcon">📋</div>
+                    <div style="flex:1;">
+                        <div style="font-size:1.1rem;font-weight:600;" id="reviewStatusText">Weekly review not started</div>
+                        <div style="font-size:0.85rem;color:var(--text-muted);" id="reviewStatusSub">Take 15 minutes to reflect on your week</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="startWeeklyReview()" id="startReviewBtn">Start Review</button>
+                </div>
+            </div>
+            
+            <!-- Week Summary Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--accent);" id="reviewHours">0h</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Study Hours</div>
+                </div>
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--success);" id="reviewTasks">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Tasks Done</div>
+                </div>
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--purple);" id="reviewDiscipline">0%</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Avg Discipline</div>
+                </div>
+                <div class="card" style="text-align:center;padding:14px;">
+                    <div style="font-size:1.6rem;font-weight:700;color:#58a6ff;" id="reviewJournals">0</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Journal Entries</div>
+                </div>
+            </div>
+            
+            <!-- Review Sections -->
+            <div id="reviewSections"></div>
+            
+            <!-- Past Reviews -->
+            <div class="card" style="margin-top:20px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">📜 Past Reviews</div>
+                <div id="pastReviews"></div>
+            </div>
+        </div>
+
+        <!-- CONTACTS / NETWORKING -->
+        <div class="page" id="contacts">
+            <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                            <span>🤝</span> Network
+                        </h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">70-80% of jobs come from connections</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openContactModal()" style="display:flex;align-items:center;gap:8px;">
+                        <span>➕</span> Add Contact
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Network Stats -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;">
+                <div class="card" style="text-align:center;padding:16px;">
+                    <div style="font-size:2rem;font-weight:700;color:var(--accent);" id="contactsTotal">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Contacts</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;background:linear-gradient(135deg, var(--bg-secondary), rgba(239,68,68,0.1));border-color:var(--danger);">
+                    <div style="font-size:2rem;font-weight:700;color:var(--danger);" id="contactsFollowup">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Need Follow-up</div>
+                </div>
+                <div class="card" style="text-align:center;padding:16px;">
+                    <div style="font-size:2rem;font-weight:700;color:var(--success);" id="contactsRecent">0</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Active (30d)</div>
+                </div>
+            </div>
+            
+            <!-- Filters -->
+            <div class="card" style="padding:12px;margin-bottom:16px;">
+                <div class="filter-bar" id="contactFilters" style="padding:0;margin:0;"></div>
+            </div>
+            
+            <!-- Follow-up Reminders -->
+            <div class="card" style="margin-bottom:16px;display:none;" id="followupSection">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">⚠️ Needs Follow-up</div>
+                <div id="followupList"></div>
+            </div>
+            
+            <!-- Contact List -->
+            <div class="card">
+                <div style="margin-bottom:12px;">
+                    <input type="text" class="form-input" id="contactSearch" placeholder="🔍 Search contacts..." oninput="filterContacts()">
+                </div>
+                <div id="contactsList"></div>
+            </div>
+        </div>
+
+        <!-- PMP STUDY TRACKER (added to Learn page as a tab, but also accessible) -->
+        
+        <!-- FOCUS MODE OVERLAY -->
+        <div class="focus-overlay" id="focusOverlay">
+            <div class="focus-task" id="focusTask">Deep Work Session</div>
+            <div class="focus-time" id="focusTime">25:00</div>
+            <div style="display:flex;gap:12px;">
+                <button class="btn btn-secondary" onclick="pauseFocusMode()">⏸️ Pause</button>
+                <button class="btn btn-danger" onclick="exitFocusMode()">✖️ Exit</button>
+            </div>
+            <div class="focus-quote" id="focusQuote">"The successful warrior is the average man, with laser-like focus." — Bruce Lee</div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="page" id="settings">
+            <div style="margin-bottom:24px;">
+                <div>
+                    <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                        <span>⚙️</span> Settings
+                    </h2>
+                    <p style="color:var(--text-muted);font-size:0.85rem;">Customize your command center</p>
+                </div>
+            </div>
+            
+            <!-- Backup Reminder -->
+            <div class="card" style="margin-bottom:16px;background:linear-gradient(135deg, var(--bg-secondary), rgba(249,115,22,0.1));border-color:var(--accent);" id="backupReminder">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <span style="font-size:2rem;">💾</span>
+                    <div style="flex:1;">
+                        <div style="font-weight:600;">Weekly Backup Reminder</div>
+                        <div style="font-size:0.85rem;color:var(--text-muted);" id="lastBackupText">Last backup: Never</div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="exportData();markBackup();">Backup Now</button>
+                </div>
+            </div>
+            
+            <!-- Profile -->
+            <div class="card" style="margin-bottom:16px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">👤 Profile</div>
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" id="settingName" value="Hebun">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Vision Statement</label>
+                    <textarea class="form-textarea" id="settingVision" placeholder="Who are you becoming?" style="min-height:80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Core Values (comma separated)</label>
+                    <input type="text" class="form-input" id="settingValues" placeholder="Discipline, Excellence, Growth">
+                </div>
+                <button class="btn btn-primary" onclick="saveSettings()">💾 Save Profile</button>
+            </div>
+            
+            <!-- Quick Stats for Resume -->
+            <div class="card" style="margin-bottom:16px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">📊 Progress Summary (for interviews)</div>
+                <div id="progressSummary"></div>
+                <button class="btn btn-secondary" onclick="copyProgressSummary()" style="margin-top:12px;">📋 Copy Summary</button>
+            </div>
+            
+            <!-- Learning Science Settings -->
+            <div class="card" style="margin-bottom:16px;border-left:3px solid var(--purple);">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">🧠 Learning Science (Make It Stick)</div>
+                
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label class="form-label">Spacing Stretch: <span id="stretchLabel">10%</span></label>
+                    <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:6px;">Extends SRS intervals beyond defaults. Harder retrieval = stronger memory.</div>
+                    <input type="range" id="settingSpacingStretch" min="0" max="30" value="10" style="width:100%;" oninput="document.getElementById('stretchLabel').textContent=this.value+'%'">
+                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-muted);"><span>0% (standard)</span><span>30% (challenging)</span></div>
+                </div>
+                
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <input type="checkbox" id="settingInterleave" checked style="width:18px;height:18px;accent-color:var(--accent);">
+                    <div>
+                        <div style="font-weight:500;font-size:0.9rem;">Interleave by Default</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Mix cards from all categories during review.</div>
+                    </div>
+                </div>
+                
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <input type="checkbox" id="settingElaboration" style="width:18px;height:18px;accent-color:var(--accent);">
+                    <div>
+                        <div style="font-weight:500;font-size:0.9rem;">Require Elaboration</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Force elaboration prompt after every study session.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Management -->
+            <div class="card" style="margin-bottom:16px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">💾 Data Management</div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-secondary" onclick="exportData()" style="display:flex;align-items:center;gap:6px;">
+                        <span>📤</span> Export JSON
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()" style="display:flex;align-items:center;gap:6px;">
+                        <span>📥</span> Import Data
+                    </button>
+                    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+                </div>
+            </div>
+            
+            <!-- Danger Zone -->
+            <div class="card" style="border-color:var(--danger);">
+                <div style="font-size:0.75rem;color:var(--danger);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">⚠️ Danger Zone</div>
+                <button class="btn btn-danger" onclick="resetData()" style="display:flex;align-items:center;gap:6px;">
+                    <span>🗑️</span> Reset All Data
+                </button>
+                <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px;">This will permanently delete all your data. Export a backup first!</div>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <div class="modal" id="goalModal" onclick="if(event.target===this)closeModal('goalModal')">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Goal</h3><button class="modal-close" onclick="closeModal('goalModal')">×</button></div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="goalTitle"></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Area</label><select class="form-select" id="goalArea"><option value="education">Education</option><option value="career">Career</option><option value="health">Health</option><option value="finance">Finance</option><option value="personal">Personal</option></select></div>
+                    <div class="form-group"><label class="form-label">Target Date</label><input type="date" class="form-input" id="goalTarget"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Milestones (one per line)</label><textarea class="form-textarea" id="goalMilestones"></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('goalModal')">Cancel</button>
+                <button class="btn btn-danger" id="goalDeleteBtn" style="display:none" onclick="deleteGoal()">Delete</button>
+                <button class="btn btn-primary" onclick="saveGoal()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="taskModal" onclick="if(event.target===this)closeModal('taskModal')">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Task</h3><button class="modal-close" onclick="closeModal('taskModal')">×</button></div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">Task *</label><input type="text" class="form-input" id="taskTitle"></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Due</label><input type="date" class="form-input" id="taskDue"></div>
+                    <div class="form-group"><label class="form-label">Priority</label><select class="form-select" id="taskPriority"><option value="low">Low</option><option value="med">Medium</option><option value="high">High</option></select></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('taskModal')">Cancel</button>
+                <button class="btn btn-danger" id="taskDeleteBtn" style="display:none" onclick="deleteTask()">Delete</button>
+                <button class="btn btn-primary" onclick="saveTask()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="timeModal" onclick="if(event.target===this)closeModal('timeModal')">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Log Time</h3><button class="modal-close" onclick="closeModal('timeModal')">×</button></div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">What? *</label><input type="text" class="form-input" id="timeTitle"></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Hours *</label><input type="number" class="form-input" id="timeDuration" step="0.25" min="0.25"></div>
+                    <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="timeDate"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Category</label><select class="form-select" id="timeCategory"><option value="study">Study</option><option value="work">Work</option><option value="exercise">Exercise</option><option value="other">Other</option></select></div>
+                    <div class="form-group"><label class="form-label">Domain</label><select class="form-select" id="timeDomain"><option value="">--</option><option value="math">Math</option><option value="structures">Structures</option><option value="management">Management</option><option value="pmp">PMP</option><option value="smr">SMR</option></select></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('timeModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveTimeEntry()">Log</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="habitModal" onclick="if(event.target===this)closeModal('habitModal')">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Habit</h3><button class="modal-close" onclick="closeModal('habitModal')">×</button></div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">Name *</label><input type="text" class="form-input" id="habitName"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('habitModal')">Cancel</button>
+                <button class="btn btn-danger" id="habitDeleteBtn" style="display:none" onclick="deleteHabit()">Delete</button>
+                <button class="btn btn-primary" onclick="saveHabit()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLASHCARD MODAL -->
+    <div class="modal" id="flashcardModal" onclick="if(event.target===this)closeModal('flashcardModal')">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h3 style="display:flex;align-items:center;gap:8px;"><span>🃏</span> <span id="flashcardModalTitle">New Flashcard</span></h3>
+                <button class="modal-close" onclick="closeModal('flashcardModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Question / Front *</label>
+                    <textarea class="form-textarea" id="cardQuestionInput" placeholder="What do you want to remember?" style="min-height:80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Answer / Back *</label>
+                    <textarea class="form-textarea" id="cardAnswerInput" placeholder="The answer or explanation" style="min-height:100px;"></textarea>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" id="cardCategory">
+                            <option value="pmp">PMP</option>
+                            <option value="mcmaster">McMaster Prep</option>
+                            <option value="construction">Construction</option>
+                            <option value="smr">SMR/Nuclear</option>
+                            <option value="general">General</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tags</label>
+                        <input type="text" class="form-input" id="cardTags" placeholder="e.g. scope, wbs">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('flashcardModal')">Cancel</button>
+                <button class="btn btn-danger" onclick="deleteFlashcard()" id="deleteCardBtn" style="display:none;">Delete</button>
+                <button class="btn btn-primary" onclick="saveFlashcard()">Save Card</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT MODAL -->
+    <div class="modal" id="contactModal" onclick="if(event.target===this)closeModal('contactModal')">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h3 style="display:flex;align-items:center;gap:8px;"><span>🤝</span> <span id="contactModalTitle">Add Contact</span></h3>
+                <button class="modal-close" onclick="closeModal('contactModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Name *</label>
+                    <input type="text" class="form-input" id="contactName" placeholder="Full name">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group">
+                        <label class="form-label">Company</label>
+                        <input type="text" class="form-input" id="contactCompany" placeholder="Company/Organization">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Role</label>
+                        <input type="text" class="form-input" id="contactRole" placeholder="Job title">
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="contactEmail" placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" class="form-input" id="contactPhone" placeholder="Phone number">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">LinkedIn</label>
+                    <input type="url" class="form-input" id="contactLinkedIn" placeholder="LinkedIn URL">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" id="contactCategory">
+                        <option value="industry">Industry Contact</option>
+                        <option value="recruiter">Recruiter</option>
+                        <option value="mentor">Mentor</option>
+                        <option value="colleague">Former Colleague</option>
+                        <option value="academic">Academic</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">How did you meet?</label>
+                    <input type="text" class="form-input" id="contactMet" placeholder="e.g. LinkedIn, TCA event, Madison Group">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-textarea" id="contactNotes" placeholder="Any relevant details about this connection..." style="min-height:60px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Follow-up Reminder</label>
+                    <input type="date" class="form-input" id="contactFollowup">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('contactModal')">Cancel</button>
+                <button class="btn btn-danger" onclick="deleteContact()" id="deleteContactBtn" style="display:none;">Delete</button>
+                <button class="btn btn-primary" onclick="saveContact()">Save Contact</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT INTERACTION MODAL -->
+    <div class="modal" id="interactionModal" onclick="if(event.target===this)closeModal('interactionModal')">
+        <div class="modal-content" style="max-width:450px;">
+            <div class="modal-header">
+                <h3 style="display:flex;align-items:center;gap:8px;"><span>📝</span> Log Interaction</h3>
+                <button class="modal-close" onclick="closeModal('interactionModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <select class="form-select" id="interactionType">
+                        <option value="email">📧 Email</option>
+                        <option value="call">📞 Call</option>
+                        <option value="meeting">🤝 Meeting</option>
+                        <option value="linkedin">💼 LinkedIn</option>
+                        <option value="coffee">☕ Coffee Chat</option>
+                        <option value="event">🎫 Event</option>
+                        <option value="other">📝 Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-textarea" id="interactionNotes" placeholder="What did you discuss?" style="min-height:80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Next Follow-up</label>
+                    <input type="date" class="form-input" id="interactionFollowup">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('interactionModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveInteraction()">Log Interaction</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WEEKLY REVIEW MODAL (for viewing past reviews) -->
+    <div class="modal" id="reviewDetailModal" onclick="if(event.target===this)closeModal('reviewDetailModal')">
+        <div class="modal-content" style="max-width:600px;">
+            <div class="modal-header">
+                <h3 style="display:flex;align-items:center;gap:8px;"><span>📋</span> <span id="reviewDetailTitle">Review</span></h3>
+                <button class="modal-close" onclick="closeModal('reviewDetailModal')">×</button>
+            </div>
+            <div class="modal-body" id="reviewDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- EVENT MODAL -->
+    <div class="modal" id="eventModal" onclick="if(event.target===this)closeModal('eventModal')">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h3 style="display:flex;align-items:center;gap:8px;"><span>📅</span> Calendar Event</h3>
+                <button class="modal-close" onclick="closeModal('eventModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Title *</label>
+                    <input type="text" class="form-input" id="eventTitle" placeholder="Meeting, deadline, etc.">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Date *</label>
+                        <input type="date" class="form-input" id="eventDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Time</label>
+                        <input type="time" class="form-input" id="eventTime">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Type</label>
+                        <select class="form-select" id="eventType">
+                            <option value="event">📅 Event</option>
+                            <option value="task">✅ Task</option>
+                            <option value="deadline">🔴 Deadline</option>
+                            <option value="study">📚 Study Session</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Duration</label>
+                        <select class="form-select" id="eventDuration">
+                            <option value="">No duration</option>
+                            <option value="30">30 min</option>
+                            <option value="60">1 hour</option>
+                            <option value="90">1.5 hours</option>
+                            <option value="120">2 hours</option>
+                            <option value="180">3 hours</option>
+                            <option value="240">4 hours</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-textarea" id="eventNotes" placeholder="Additional details..." style="min-height:80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Repeat</label>
+                    <select class="form-select" id="eventRepeat">
+                        <option value="">No repeat</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('eventModal')">Cancel</button>
+                <button class="btn btn-danger" id="eventDeleteBtn" style="display:none" onclick="deleteEvent()">🗑️ Delete</button>
+                <button class="btn btn-primary" onclick="saveEvent()">💾 Save Event</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODERN JOURNAL MODAL -->
+    <div class="modal" id="journalModal" onclick="if(event.target===this)closeModal('journalModal')">
+        <div class="modal-content" style="max-width:720px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;">
+            <!-- Header with Icon & Title -->
+            <div class="modal-header" style="border-bottom:none;padding:16px 20px 8px;">
+                <div style="display:flex;align-items:center;gap:12px;flex:1;">
+                    <button type="button" id="journalIconBtn" onclick="pickJournalIcon()" 
+                            style="font-size:2rem;background:none;border:none;cursor:pointer;padding:4px;border-radius:8px;transition:background 0.15s;"
+                            onmouseover="this.style.background='var(--bg-tertiary)'" onmouseout="this.style.background='none'">📝</button>
+                    <input type="text" id="journalTitle" placeholder="Untitled" 
+                           style="font-size:1.4rem;font-weight:600;border:none;background:none;color:var(--text-primary);outline:none;flex:1;padding:4px 0;">
+                </div>
+                <button class="modal-close" onclick="closeModal('journalModal')">×</button>
+            </div>
+            
+            <div class="modal-body" style="padding:0 20px 20px;overflow-y:auto;flex:1;">
+                <!-- Meta Properties -->
+                <div style="display:flex;flex-wrap:wrap;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="color:var(--text-muted);font-size:0.8rem;">📅 Date</span>
+                        <input type="date" class="form-input" id="journalDate" style="padding:6px 10px;font-size:0.85rem;background:var(--bg-tertiary);border:none;border-radius:6px;">
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="color:var(--text-muted);font-size:0.8rem;">🏷️ Type</span>
+                        <select class="form-select" id="journalType" onchange="updateIconFromType()" style="padding:6px 10px;font-size:0.85rem;background:var(--bg-tertiary);border:none;border-radius:6px;">
+                            <option value="reflection">💭 Reflection</option>
+                            <option value="gratitude">🙏 Gratitude</option>
+                            <option value="learning">📚 Learning</option>
+                            <option value="win">🏆 Win</option>
+                            <option value="idea">💡 Idea</option>
+                            <option value="goal">🎯 Goal Check</option>
+                            <option value="incident">⚠️ Incident</option>
+                            <option value="mood">😊 Mood Log</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="color:var(--text-muted);font-size:0.8rem;">📚 Pathway</span>
+                        <select class="form-select" id="journalPathway" style="padding:6px 10px;font-size:0.85rem;background:var(--bg-tertiary);border:none;border-radius:6px;">
+                            <option value="">None</option>
+                            <option value="pmp">PMP</option>
+                            <option value="mcmaster">McMaster</option>
+                            <option value="smr">SMR</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Mood Selector -->
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">How are you feeling?</div>
+                    <div id="moodSelector" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+                    <input type="hidden" id="journalMood" value="">
+                </div>
+
+                <!-- Rich Text Toolbar -->
+                <div id="editorToolbar" style="display:flex;gap:2px;padding:8px 10px;background:var(--bg-tertiary);border-radius:8px 8px 0 0;border:1px solid var(--border);border-bottom:none;flex-wrap:wrap;">
+                    <button type="button" class="toolbar-btn" onclick="formatText('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
+                    <button type="button" class="toolbar-btn" onclick="formatText('italic')" title="Italic (Ctrl+I)"><i>I</i></button>
+                    <button type="button" class="toolbar-btn" onclick="formatText('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
+                    <button type="button" class="toolbar-btn" onclick="formatText('strikeThrough')" title="Strikethrough"><s>S</s></button>
+                    <div style="width:1px;background:var(--border);margin:0 6px;"></div>
+                    <button type="button" class="toolbar-btn" onclick="formatText('insertUnorderedList')" title="Bullet List">• List</button>
+                    <button type="button" class="toolbar-btn" onclick="formatText('insertOrderedList')" title="Numbered List">1. List</button>
+                    <button type="button" class="toolbar-btn" onclick="insertCheckbox()" title="Checkbox">☑️</button>
+                    <div style="width:1px;background:var(--border);margin:0 6px;"></div>
+                    <button type="button" class="toolbar-btn" onclick="formatBlock('h2')" title="Heading">H</button>
+                    <button type="button" class="toolbar-btn" onclick="formatBlock('blockquote')" title="Quote">❝</button>
+                    <button type="button" class="toolbar-btn" onclick="insertDivider()" title="Divider">─</button>
+                    <button type="button" class="toolbar-btn" onclick="insertCallout()" title="Callout">💬</button>
+                    <div style="width:1px;background:var(--border);margin:0 6px;"></div>
+                    <button type="button" class="toolbar-btn" onclick="showEmojiPicker()" title="Emoji">😀</button>
+                    <button type="button" class="toolbar-btn" onclick="highlightText()" title="Highlight">🖍️</button>
+                </div>
+
+                <!-- Rich Content Editor -->
+                <div id="journalContent" contenteditable="true" 
+                     style="min-height:220px;max-height:320px;overflow-y:auto;padding:16px;background:var(--bg-primary);border:1px solid var(--border);border-radius:0 0 8px 8px;outline:none;line-height:1.8;font-size:0.95rem;"
+                     placeholder="Start writing your thoughts..."
+                     onpaste="handlePaste(event)"></div>
+
+                <!-- Tags Section -->
+                <div style="margin-top:16px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Tags</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px;background:var(--bg-tertiary);border-radius:8px;">
+                        <div id="journalTagsContainer" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+                        <input type="text" id="journalTagInput" placeholder="Add tag + Enter" 
+                               style="border:none;background:none;outline:none;color:var(--text-primary);font-size:0.85rem;min-width:100px;flex:1;" 
+                               onkeydown="handleTagInput(event)">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="modal-footer" style="border-top:1px solid var(--border);padding:12px 20px;">
+                <div style="font-size:0.75rem;color:var(--text-muted);" id="journalWordCount">0 words</div>
+                <div style="display:flex;gap:10px;margin-left:auto;">
+                    <button class="btn btn-secondary" onclick="closeModal('journalModal')">Cancel</button>
+                    <button class="btn btn-danger" id="journalDeleteBtn" style="display:none" onclick="deleteJournal()">🗑️ Delete</button>
+                    <button class="btn btn-primary" onclick="saveJournal()">💾 Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KNOWLEDGE MODAL -->
+    <div class="modal" id="knowledgeModal" onclick="if(event.target===this)closeModal('knowledgeModal')">
+        <div class="modal-content" style="max-width:600px;max-height:85vh;overflow-y:auto;">
+            <div class="modal-header"><h3>Knowledge Note</h3><button class="modal-close" onclick="closeModal('knowledgeModal')">×</button></div>
+            <div class="modal-body" id="knowledgeModalBody">
+                <input type="hidden" id="knowledgeEntryType" value="note">
+                <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="knowledgeTitle"></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Pathway</label><select class="form-select" id="knowledgePathway"><option value="">— None —</option><option value="pmp">PMP</option><option value="mcmaster">McMaster</option><option value="smr">SMR</option></select></div>
+                    <div class="form-group"><label class="form-label">Tags (comma separated)</label><input type="text" class="form-input" id="knowledgeTags" placeholder="risk, evm, pmp"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Content *</label><textarea class="form-textarea" id="knowledgeContent" style="min-height:150px" placeholder="Your notes, formulas, key concepts..."></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('knowledgeModal')">Cancel</button>
+                <button class="btn btn-danger" id="knowledgeDeleteBtn" style="display:none" onclick="deleteKnowledge()">Delete</button>
+                <button class="btn btn-primary" onclick="saveKnowledge()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><span id="toastMsg"></span></div>
+    
+    <!-- Study Timer -->
+    <div class="study-timer" id="studyTimer">
+        <div class="study-timer-label" id="studyTimerLabel">🎯 Active Recall</div>
+        <div class="study-timer-time" id="studyTimerDisplay">15:00</div>
+        <div class="study-timer-controls">
+            <button class="btn btn-secondary btn-sm" onclick="pauseStudyTimer()">⏸️ Pause</button>
+            <button class="btn btn-danger btn-sm" onclick="stopStudyTimer()">⏹️ Stop</button>
+        </div>
+    </div>
+
+
+    <!-- Scripts (order matters!) -->
+    <script src="data/constants.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/protocol.js"></script>
+    <script src="js/discipline.js"></script>
+    <script src="js/learn.js"></script>
+    <script src="js/studylab.js"></script>
+    <script src="js/srs.js"></script>
+    <script src="js/review.js"></script>
+    <script src="js/contacts.js"></script>
+    <script src="js/focus.js"></script>
+    <script src="js/goals.js"></script>
+    <script src="js/tasks.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/habits.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/journal.js"></script>
+    <script src="js/knowledge.js"></script>
+    <script src="js/insights.js"></script>
+    <script src="js/pmp-tools.js"></script>
+    <script src="js/data-mgmt.js"></script>
+    <script src="js/strategic.js"></script>
+    <script>
+        // Initialize
+        refreshDashboard();
+    </script>
+</body>
+</html>
