@@ -118,11 +118,13 @@ function startWeeklyReview() {
 
 function renderReviewSections(review) {
     const sections = [
-        { id: 'wins', icon: '🏆', title: 'Wins', question: 'What went well this week? What are you proud of?' },
-        { id: 'challenges', icon: '💪', title: 'Challenges', question: 'What was difficult? What didn\'t go as planned?' },
-        { id: 'lessons', icon: '💡', title: 'Lessons', question: 'What did you learn? Any insights or realizations?' },
-        { id: 'improvements', icon: '🔧', title: 'Improvements', question: 'What will you do differently next week?' },
-        { id: 'priorities', icon: '🎯', title: 'Next Week', question: 'What are your top 3 priorities for next week?' },
+        { id: 'wins', icon: '🏆', title: 'Wins', question: 'What went well this week? Where did your Analytical or Restorative strengths create value?' },
+        { id: 'challenges', icon: '💪', title: 'Challenges', question: 'What was difficult? Did you over-deliberate or avoid action on anything? (Watch Deliberative blind spot)' },
+        { id: 'learning', icon: '📖', title: 'Learning (Learner)', question: 'What did you learn this week? New concepts, skills, or insights? Feed your Learner.' },
+        { id: 'communication', icon: '💬', title: 'Communication Growth', question: 'How did you practice communication this week? Any presentations, tough conversations, or professional writing? (Your #1 growth area)' },
+        { id: 'command', icon: '⚡', title: 'Command & Leadership', question: 'Where did you take charge, speak up, or influence a decision? Where could you have but didn\'t?' },
+        { id: 'reflection_action', icon: '🎯', title: 'Reflection → Action', question: 'Did you convert your thinking into decisive action? Or did analysis paralysis hold you back? (Persistent 26% — push this.)' },
+        { id: 'priorities', icon: '📋', title: 'Next Week Priorities', question: 'Top 3 priorities for next week. Include at least one communication challenge.' },
         { id: 'gratitude', icon: '🙏', title: 'Gratitude', question: 'What are you grateful for this week?' }
     ];
     

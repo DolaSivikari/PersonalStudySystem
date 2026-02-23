@@ -185,7 +185,7 @@ function saveJournal() {
         toast('Write something first');
         return;
     }
-    
+
     const entries = arr(K.journal);
     const data = {
         date: document.getElementById('journalDate').value || today(),
@@ -198,18 +198,57 @@ function saveJournal() {
         pathway: document.getElementById('journalPathway').value,
         updatedAt: new Date().toISOString()
     };
-    
+
     if (editingJournalId) {
         const i = entries.findIndex(e => e.id === editingJournalId);
         if (i !== -1) entries[i] = { ...entries[i], ...data };
+        set(K.journal, entries);
+        closeModal('journalModal');
+        renderJournal();
+        toast('Entry saved! ✨');
     } else {
         entries.push({ id: uid(), createdAt: new Date().toISOString(), ...data });
+        set(K.journal, entries);
+        renderJournal();
+        toast('Entry saved! ✨');
+        // Show Reflection → Action bridge
+        document.querySelector('#journalModal .modal-content').innerHTML = `
+            <div style="text-align:center;padding:20px;">
+                <div style="font-size:2rem;margin-bottom:12px;">✅</div>
+                <div style="font-weight:700;font-size:1.1rem;margin-bottom:8px;">Entry Saved!</div>
+                <div style="color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;">
+                    🧠 <strong>Reflection → Action:</strong> What's one concrete action from this reflection?
+                </div>
+                <input type="text" class="form-input" id="reflectionAction" placeholder="e.g., Email Lucas about Aecon opportunity" style="margin-bottom:12px;font-size:0.95rem;">
+                <div style="display:flex;gap:8px;justify-content:center;">
+                    <button class="btn btn-primary" onclick="createActionFromReflection()">✅ Create Task</button>
+                    <button class="btn btn-secondary" onclick="closeModal('journalModal');renderJournal();">Skip</button>
+                </div>
+            </div>
+        `;
     }
-    
-    set(K.journal, entries);
+}
+
+function createActionFromReflection() {
+    const action = document.getElementById('reflectionAction').value.trim();
+    if (!action) { toast('Enter an action first'); return; }
+
+    const tasks = arr(K.tasks);
+    tasks.push({
+        id: uid(),
+        title: action,
+        priority: 'medium',
+        status: 'pending',
+        dueDate: '',
+        tags: ['reflection-action'],
+        createdAt: new Date().toISOString(),
+        notes: 'Created from journal reflection'
+    });
+    set(K.tasks, tasks);
+
     closeModal('journalModal');
     renderJournal();
-    toast('Entry saved! ✨');
+    toast('🎯 Action created as task!');
 }
 
 function deleteJournal() {

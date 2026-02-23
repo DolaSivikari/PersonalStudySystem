@@ -138,6 +138,64 @@ const DISCIPLINES = [
     { id: 'health', name: 'Health', desc: 'Exercise, nutrition, sleep', max: 10 }
 ];
 
+// ==================== CLIFTONSTRENGTHS: COMMUNICATION ACTIVITIES ====================
+const COMM_ACTIVITIES = [
+    { id: 'presented',     icon: '🎤', name: 'Presented / spoke to a group' },
+    { id: 'explained',     icon: '🧑‍🏫', name: 'Explained a technical concept to someone' },
+    { id: 'wrote_email',   icon: '✉️',  name: 'Wrote a professional email or message' },
+    { id: 'asked_question',icon: '❓', name: 'Asked a thoughtful question in a meeting' },
+    { id: 'gave_feedback', icon: '💬', name: 'Gave someone constructive feedback' },
+    { id: 'small_talk',    icon: '🤝', name: 'Initiated casual conversation (small talk)' },
+    { id: 'phone_call',    icon: '📞', name: 'Made a professional phone call' },
+    { id: 'linkedin',      icon: '💼', name: 'Wrote a LinkedIn post or outreach message' }
+];
+
+// ==================== CLIFTONSTRENGTHS: BLIND SPOT ALERTS ====================
+const BLIND_SPOTS = [
+    { strength: 'Deliberative', icon: '🔍',
+      alert: 'You might appear distant or unapproachable today.',
+      action: 'Give someone a genuine compliment. Your praise is rare and valued — use that power.',
+      color: '#f97316' },
+    { strength: 'Analytical', icon: '🧪',
+      alert: 'Your questioning might come across as skepticism or distrust.',
+      action: 'Before asking "why?", first acknowledge what\'s good about someone\'s idea.',
+      color: '#3b82f6' },
+    { strength: 'Restorative', icon: '🔧',
+      alert: 'You might focus on what\'s broken instead of what\'s working.',
+      action: 'Name one thing that\'s going RIGHT on a current project. Tell someone about it.',
+      color: '#22c55e' },
+    { strength: 'Command', icon: '⚡',
+      alert: 'Your decisiveness might feel intimidating to others.',
+      action: 'Ask for someone else\'s input BEFORE sharing your conclusion today.',
+      color: '#a855f7' },
+    { strength: 'Competition', icon: '🏆',
+      alert: 'Comparing performance might create friction with teammates.',
+      action: 'Celebrate someone else\'s win today without comparing it to your own.',
+      color: '#eab308' },
+    { strength: 'Significance', icon: '🌟',
+      alert: 'You might mask vulnerability or seem overly controlled.',
+      action: 'Ask someone for help with something small today. It builds trust.',
+      color: '#ef4444' },
+    { strength: 'Intellection', icon: '🧠',
+      alert: 'Deep thinking might make you seem disengaged or isolated.',
+      action: 'Share one interesting thought or idea with someone today — out loud, not in writing.',
+      color: '#8b5cf6' }
+];
+
+// ==================== ENERGY MANAGEMENT ACTIVITIES ====================
+const ENERGY_ACTIVITIES = [
+    { id: 'deep_work',   icon: '🧠', name: 'Deep Work',           type: 'charge' },
+    { id: 'meetings',    icon: '👥', name: 'Meetings',             type: 'drain'  },
+    { id: 'hands_on',   icon: '🔧', name: 'Hands-On Work',        type: 'charge' },
+    { id: 'admin',       icon: '📋', name: 'Admin / Paperwork',    type: 'drain'  },
+    { id: 'networking',  icon: '🤝', name: 'Networking',           type: 'drain'  },
+    { id: 'studying',    icon: '📖', name: 'Studying',             type: 'charge' },
+    { id: 'mentorship',  icon: '🎓', name: '1-on-1 Mentorship',    type: 'charge' },
+    { id: 'site_work',   icon: '🏗️', name: 'Site Work',            type: 'charge' },
+    { id: 'presenting',  icon: '🎤', name: 'Presenting',           type: 'drain'  },
+    { id: 'creative',    icon: '💡', name: 'Creative/Building',    type: 'charge' }
+];
+
 // ==================== LEARNING PATHWAYS ====================
 const PATHWAYS = {
     pmp: {

@@ -28,6 +28,33 @@ function refreshDashboard() {
     
     // Call enhanced dashboard features
     refreshDashboardEnhanced();
+
+    // Blind spot alert
+    renderBlindSpot();
+}
+
+function renderBlindSpot() {
+    const spots = typeof BLIND_SPOTS !== 'undefined' ? BLIND_SPOTS : [];
+    if (spots.length === 0) return;
+
+    // Rotate daily based on day-of-year
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 0);
+    const dayOfYear = Math.floor((now - startOfYear) / 86400000);
+    const spot = spots[dayOfYear % spots.length];
+
+    const card = document.getElementById('blindSpotCard');
+    if (!card) return;
+    card.style.borderLeft = '3px solid ' + spot.color;
+    card.style.background = spot.color + '11';
+    card.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+            <div style="font-weight:700;font-size:0.9rem;">${spot.icon} Blind Spot Check: ${esc(spot.strength)}</div>
+            <span style="font-size:0.7rem;padding:2px 8px;background:${spot.color}22;color:${spot.color};border-radius:4px;">Daily</span>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:8px;">${esc(spot.alert)}</div>
+        <div style="font-size:0.85rem;color:var(--accent);font-weight:500;">→ ${esc(spot.action)}</div>
+    `;
 }
 
 function renderDashLearn() {

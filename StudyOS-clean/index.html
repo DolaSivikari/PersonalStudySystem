@@ -138,6 +138,9 @@
             <div id="dashboardTip"></div>
             <div class="card"><div class="card-header"><span class="card-title">📚 Learn Today</span><span class="btn btn-sm btn-secondary" onclick="go('learn')">View Path →</span></div><div id="dashLearn"></div></div>
             
+            <!-- Blind Spot Alert -->
+            <div class="card" id="blindSpotCard" style="margin-bottom:16px;padding:16px;"></div>
+
             <!-- Daily Quote -->
             <div class="quote-card" id="dailyQuoteCard">
                 <div class="quote-text" id="dailyQuoteText">"Discipline is choosing between what you want now and what you want most."</div>
@@ -237,6 +240,30 @@
             <div class="card" style="margin-top:16px;">
                 <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Last 7 Days</div>
                 <div id="disciplineHeatmap" style="display:flex;gap:8px;justify-content:space-between;"></div>
+            </div>
+
+            <!-- Communication Practice -->
+            <div class="card" style="margin-top:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                    <div>
+                        <div style="font-weight:700;">💬 Communication Practice</div>
+                        <div style="font-size:0.8rem;color:var(--text-muted);">Your #1 growth area — track daily progress</div>
+                    </div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);" id="commStreak">0 day streak</div>
+                </div>
+                <div id="commActivities"></div>
+                <div style="margin-top:10px;">
+                    <input type="text" class="form-input" id="commNote" placeholder="Quick note (optional): what did you communicate about?" style="font-size:0.85rem;">
+                </div>
+            </div>
+
+            <!-- Energy Tracker -->
+            <div class="card" style="margin-top:20px;">
+                <div style="font-weight:700;margin-bottom:14px;">⚡ Energy Level</div>
+                <div style="display:flex;gap:8px;margin-bottom:14px;" id="energyRating"></div>
+                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;">What did you do today?</div>
+                <div id="energyActivities" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
+                <div id="energyInsight" style="margin-top:12px;"></div>
             </div>
         </div>
 
